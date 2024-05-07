@@ -1,5 +1,6 @@
 'use server';
 import { prisma } from '@/lib/prisma';
+import { Idea } from '@prisma/client';
 import { z } from 'zod';
 import { getProfile } from '../auth/get-profile';
 
@@ -24,7 +25,13 @@ const IdeaFormSchema = z.object({
 
 export type FormSchema = z.infer<typeof IdeaFormSchema>;
 
-export async function addIdea(state: any, formData: FormData): Promise<any> {
+interface AddIdeaResponse {
+  errors?: any;
+  success: boolean;
+  data?: Idea | any;
+}
+
+export async function addIdea(state: any, formData: FormData): Promise<AddIdeaResponse> {
   const user = await getProfile();
 
   const validatedFields = IdeaFormSchema.safeParse({
@@ -35,6 +42,7 @@ export async function addIdea(state: any, formData: FormData): Promise<any> {
 
   if (!validatedFields.success) {
     return {
+      success: false,
       errors: validatedFields.error.flatten().fieldErrors,
     };
   } else {
@@ -50,22 +58,19 @@ export async function addIdea(state: any, formData: FormData): Promise<any> {
         })
         .catch((error) => {
           return {
-            errors: {
-              status: 'error',
-              message: error,
-            },
+            errors: error,
+            success: false,
           };
         })
         .then((createdIdea) => {
           return {
-            response: {
-              status: 'success',
-              data: createdIdea,
-            },
+            success: true,
+            data: createdIdea,
           };
         });
     } else {
       return {
+        success: false,
         errors: {
           status: 'error',
           message: 'User not found',
