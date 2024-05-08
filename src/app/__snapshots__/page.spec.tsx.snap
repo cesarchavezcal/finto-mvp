@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home heading should show "Hello World!" 1`] = `
+<h1
+  role="heading"
+>
+  Hello World
+</h1>
+`;
+
+exports[`Home renders the heading 1`] = `
+<h1
+  role="heading"
+>
+  Hello World
+</h1>
+`;

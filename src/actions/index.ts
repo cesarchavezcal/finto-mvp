@@ -1,6 +1,6 @@
 // Default external getter example
-export { getDataFromVercelBlog } from './api-default';
-export type { VercelBlogPostI } from './api-default';
+export { getDataFromVercelBlog } from './api-default/api-default';
+export type { VercelBlogPostI } from './api-default/api-default';
 // Default prisma getter example
 export { getInternalBlogPosts } from './prisma-default';
 // Authentication actions

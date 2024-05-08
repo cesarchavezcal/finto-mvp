@@ -1,4 +1,6 @@
 import { Toaster } from '@/components/ui/toaster';
+import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -32,7 +34,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Theme accentColor="lime" grayColor="olive" radius="large" panelBackground="translucent">
+            {children}
+          </Theme>
         </ThemeProvider>
         <Toaster />
       </body>
