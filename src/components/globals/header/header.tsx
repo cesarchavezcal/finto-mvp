@@ -9,7 +9,7 @@ export interface HeaderProps {
 export async function Header() {
   const user = await getProfile();
   return (
-    <Box role="navigation" position="sticky" top="0" left="0">
+    <Box role="navigation" position="sticky" top="0" left="0" className="z-10">
       <Card>
         <Flex justify="between" wrap="wrap" align="center">
           <Heading size="3" role="title">

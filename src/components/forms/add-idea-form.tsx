@@ -1,9 +1,21 @@
 'use client';
 
-import { addIdea } from '@/actions/ideas/add-idea.action';
-import { useEffect } from 'react';
+import { addIdeaAction } from '@/actions';
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Grid,
+  Separator,
+  Spinner,
+  Switch,
+  Text,
+  TextArea,
+  TextField,
+} from '@radix-ui/themes';
+import { useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { useToast } from '../ui/use-toast';
 
 export interface AddIdeaFormProps {
   children?: React.ReactNode;
@@ -11,39 +23,63 @@ export interface AddIdeaFormProps {
 
 function Submit() {
   const { pending } = useFormStatus();
-
-  return <button disabled={pending}>{pending ? 'Submitting...' : 'Submit'}</button>;
+  return (
+    <Button disabled={pending}>
+      {pending ? <Spinner /> : null}
+      Share Idea
+    </Button>
+  );
 }
 
 export const AddIdeaForm = ({}: Readonly<AddIdeaFormProps>) => {
-  const [state, action] = useFormState(addIdea, undefined);
-  const { toast } = useToast();
+  const [state, action] = useFormState(addIdeaAction, undefined);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state?.success) {
-      toast({
-        title: 'Idea created',
-        description: `Your idea has been created successfully: ${state?.data.title}`,
-      });
+      formRef.current?.reset();
     }
-  }, [state, toast]);
+  }, [state]);
 
   return (
-    <form action={action}>
-      {state?.errors?.title && <div>{state.errors.title}</div>}
-      <div>
-        <label htmlFor="title">Title</label>
-        <input type="text" id="title" name="title" />
-      </div>
-      <div>
-        <label htmlFor="content">Content</label>
-        <textarea id="content" name="content" />
-      </div>
-      <div>
-        <label htmlFor="published">Published</label>
-        <input type="checkbox" id="published" name="published" value="yes" />
-      </div>
-      <Submit />
-    </form>
+    <Card>
+      <form action={action} ref={formRef}>
+        <Grid gap={'4'}>
+          {state?.errors?.title && <div>{state.errors.title}</div>}
+          <Flex direction="column" gap="3">
+            <Box>
+              <Flex direction="column" gap="1">
+                <Text weight={'bold'} as="label" size={'2'} htmlFor="title">
+                  💡 Idea Title
+                </Text>
+                <TextField.Root
+                  name="title"
+                  variant="surface"
+                  placeholder="Search the docs…"
+                ></TextField.Root>
+              </Flex>
+            </Box>
+            <Box>
+              <Flex direction="column" gap="1">
+                <Text weight={'bold'} as="label" size={'2'} htmlFor="content">
+                  💬 Idea Description
+                </Text>
+                <TextArea placeholder="Add your content" name="content" />
+              </Flex>
+            </Box>
+            <Box>
+              <Flex direction="column" gap="1">
+                <Text weight={'bold'} as="label" size={'2'} htmlFor="published">
+                  🚀 Should Publish?
+                </Text>
+                <Switch name="published" />
+              </Flex>
+            </Box>
+          </Flex>
+          <Separator size={'4'} />
+          <Submit />
+        </Grid>
+      </form>
+    </Card>
   );
 };
