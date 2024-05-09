@@ -1,6 +1,7 @@
 'use server';
 import { prisma } from '@/lib/prisma';
 import { Idea } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getProfile } from '../auth/get-profile';
 
@@ -31,7 +32,7 @@ interface AddIdeaResponse {
   data?: Idea | any;
 }
 
-export async function addIdea(state: any, formData: FormData): Promise<AddIdeaResponse> {
+export async function addIdeaAction(state: any, formData: FormData): Promise<AddIdeaResponse> {
   const user = await getProfile();
 
   const validatedFields = IdeaFormSchema.safeParse({
@@ -63,6 +64,7 @@ export async function addIdea(state: any, formData: FormData): Promise<AddIdeaRe
           };
         })
         .then((createdIdea) => {
+          revalidatePath('/');
           return {
             success: true,
             data: createdIdea,
