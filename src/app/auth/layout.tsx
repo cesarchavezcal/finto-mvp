@@ -1,5 +1,11 @@
+import { Box, Flex } from '@radix-ui/themes';
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="min-h-screen w-full flex items-center justify-center">{children}</section>
+    <Box width="100%">
+      <Flex justify="center" align="center" minHeight="100vh">
+        {children}
+      </Flex>
+    </Box>
   );
 }

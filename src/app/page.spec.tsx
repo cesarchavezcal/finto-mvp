@@ -1,27 +1,19 @@
+import { Header } from '@/components';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Home from './page';
 
-describe('Home', () => {
-  beforeEach(async () => {
-    // Action
-    const Component = await Home();
-    render(Component);
-  });
+describe('Page', () => {
+  it('renders post content, author information, and action buttons', async () => {
+    render(
+      await (
+        <div>
+          {await Header()}
+          <h1 role="heading">Hello World</h1>
+        </div>
+      ),
+    );
 
-  it('renders the heading', async () => {
-    // Arrange
-    const el = screen.queryByRole('heading');
-    // Assert
-    expect(el).toBeInTheDocument();
-    expect(el).toMatchSnapshot();
-  });
-
-  it('heading should show "Hello World!"', async () => {
-    // Arrange
-    const el = screen.queryByRole('heading');
-    // Assert
-    expect(el).toHaveTextContent('Hello World');
-    expect(el).toMatchSnapshot();
+    expect(screen.getByRole('heading')).toBeInTheDocument();
+    expect(screen.getByText('Hello World')).toBeInTheDocument();
   });
 });

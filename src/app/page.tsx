@@ -1,7 +1,7 @@
 // async function InternalBlogPosts(): Promise<React.ReactElement> {
 //   const posts = await getInternalBlogPosts();
 
-import { getProfile } from '@/actions';
+import { Header } from '@/components';
 
 //   return (
 //     <Table>
@@ -33,12 +33,13 @@ import { getProfile } from '@/actions';
 //     </Table>
 //   );
 // }
-
 export default async function Home() {
-  const user = await getProfile();
-  console.log(user);
+  // const user = await getProfile();
   return (
-    <h1 role="heading">Hello World</h1>
+    <div>
+      <Header></Header>
+      <h1 role="heading">Hello World</h1>
+    </div>
     // <>
     //   <Container width={'100%'}>
     //     <Box>
