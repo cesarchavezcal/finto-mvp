@@ -1,5 +1,5 @@
 'use server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib';
 import { Idea } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
