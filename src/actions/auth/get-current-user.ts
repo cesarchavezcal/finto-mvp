@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/lib';
 import { Session } from 'next-auth';
 
 /**

@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma/prisma-client.lib';
 import { getCurrentUser } from './get-current-user';
 import { getProfile } from './get-profile';
 
